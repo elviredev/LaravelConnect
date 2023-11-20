@@ -26,7 +26,8 @@ a:hover {
 }
 
 footer a:hover,
-.author-of-post:hover{
+.author-of-post:hover,
+.profile-nav-link:hover {
     color: #007bff;
 }
 

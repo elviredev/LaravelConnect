@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+    /* Créer un compte utilisateur */
     public function  register(Request $request) {
         $incomingFields = $request->validate([
             'username' => ['required', 'min:3', 'max:20', Rule::unique('users', 'username')],
@@ -21,6 +22,7 @@ class UserController extends Controller
         return redirect('/')->with('success', 'Merci d\'avoir créé un compte 🤗');
     }
 
+    /* Se connecter en tant qu'utilisateur */
     public function login(Request $request) {
         $incomingFields = $request->validate([
             'loginusername' => 'required',
@@ -36,6 +38,7 @@ class UserController extends Controller
         }
     }
 
+    /* Se déconnecter */
     public function logout() {
         auth()->logout();
         return redirect('/')->with('success', 'Vous êtes maintenant déconnecté 🦉');
@@ -52,6 +55,11 @@ class UserController extends Controller
             // si pas authentifié
             return view('homepage');
         }
+    }
+
+    /* Afficher la page du profil utilisateur */
+    public function profile(User $user) {
+        return view('profile-posts', ['username' => $user->username, 'posts' => $user->posts()->latest()->get(), 'postCount' => $user->posts()->count()]);
     }
 
 
