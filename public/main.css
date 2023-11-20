@@ -25,7 +25,8 @@ a:hover {
     color: #f6425f;
 }
 
-footer a:hover {
+footer a:hover,
+.author-of-post:hover{
     color: #007bff;
 }
 

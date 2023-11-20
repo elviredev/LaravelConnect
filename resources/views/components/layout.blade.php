@@ -82,7 +82,7 @@
     <div class="m-0">
         Copyright &copy; {{ date('Y') }}
         <a href="/" class="color-primary">elvirewebsite.</a>
-        All rights reserved.
+        Tous droits réservés.
     </div>
 </footer>
 
