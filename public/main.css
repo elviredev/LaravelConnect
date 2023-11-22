@@ -27,8 +27,10 @@ a:hover {
 
 footer a:hover,
 .author-of-post:hover,
-.profile-nav-link:hover {
+.profile-nav-link:hover,
+.back-link:hover {
     color: #007bff;
+    text-decoration: none;
 }
 
 .container--narrow {
