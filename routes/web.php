@@ -17,6 +17,10 @@ Route::post('/register', [UserController::class, "register"])->middleware('guest
 Route::post('/login', [UserController::class, "login"])->middleware('guest');
 Route::post('/logout', [UserController::class, "logout"])->middleware('mustBeLoggedIn');
 
+// URL avatar
+Route::get('/manage-avatar', [UserController::class, "showAvatarForm"])->middleware('mustBeLoggedIn');
+Route::post('/manage-avatar', [UserController::class, "storeAvatar"])->middleware('mustBeLoggedIn');
+
 // URL's Blog Posts
 Route::get('/create-post', [PostController::class, "showCreateForm"])->middleware('mustBeLoggedIn');
 Route::post('/create-post', [PostController::class, "createNewPost"])->middleware('mustBeLoggedIn');

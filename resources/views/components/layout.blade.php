@@ -32,7 +32,7 @@
                 <i class="fas fa-comment"></i>
             </span>
             <a href="/profile/{{ auth()->user()->username }}" class="mr-2">
-                <img title="Mon Profil" data-toggle="tooltip" data-placement="bottom" style="width: 32px; height: 32px; border-radius: 16px" src="https://gravatar.com/avatar/f64fc44c03a8a7eb1d52502950879659?s=128" />
+                <img title="Mon Profil" data-toggle="tooltip" data-placement="bottom" style="width: 32px; height: 32px; border-radius: 16px" src="{{ auth()->user()->avatar }}" />
             </a>
 
             <a class="btn btn-sm btn-submit mr-2" href="/create-post">Créer article</a>
@@ -84,8 +84,8 @@
 {{ $slot }}
 
 <!-- footer begins -->
-<footer class="border-top text-center small text-muted py-3">
-    <div class="m-0">
+<footer class="footer border-top text-center small text-muted">
+    <div class="container">
         Copyright &copy; {{ date('Y') }}
         <a href="/" class="color-primary">elvirewebsite.</a>
         Tous droits réservés.

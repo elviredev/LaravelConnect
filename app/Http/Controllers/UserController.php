@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use \Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -59,8 +61,53 @@ class UserController extends Controller
 
     /* Afficher la page du profil utilisateur */
     public function profile(User $user) {
-        return view('profile-posts', ['username' => $user->username, 'posts' => $user->posts()->latest()->get(), 'postCount' => $user->posts()->count()]);
+        return view('profile-posts', ['username' => $user->username, 'posts' => $user->posts()->latest()->get(), 'postCount' => $user->posts()->count(), 'avatar' => $user->avatar]);
     }
 
+    /* Afficher le formulaire de téléchargement d'une photo de profil */
+    public function showAvatarForm() {
+        return view('avatar-form');
+    }
+
+    /* Sauvegarder l'avatar en bdd */
+    public function storeAvatar(Request $request) {
+        $request->validate([
+            'avatar' => 'required|image|max:3000'
+        ]);
+        // user connecté
+        $user = auth()->user();
+        // création path unique
+        $filename = $user->id . '-' . uniqid() . '.jpg';
+        // redimensionner image
+        $imgData = Image::make($request->file('avatar'))->fit(120)->encode('jpg');
+        // stocker fichier + données dans le repertoire
+        Storage::put('public/avatars/' . $filename, $imgData);
+
+        // ancien avatar stocké en bdd
+        $oldAvatar = $user->avatar;
+        // mettre à jour la bdd
+        $user->avatar = $filename;
+        $user->save();
+
+        // si la colonne avatar n'est pas = à l'img par défaut ça veut dire qu'il y avait vraiment une ancienne valeur, une ancienne photo alors on la supprime
+        if ($oldAvatar != "/fallback-avatar.jpg") {
+            Storage::delete(str_replace("/storage/", "public/", $oldAvatar));
+        }
+
+        return back()->with('success', 'Bravo, vous avez un nouvel avatar.');
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
