@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Follow;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -61,7 +62,20 @@ class UserController extends Controller
 
     /* Afficher la page du profil utilisateur */
     public function profile(User $user) {
-        return view('profile-posts', ['username' => $user->username, 'posts' => $user->posts()->latest()->get(), 'postCount' => $user->posts()->count(), 'avatar' => $user->avatar]);
+        $currentlyFollowing = 0;
+
+        if (auth()->check()) {
+            $currentlyFollowing = Follow::where([['user_id', '=', auth()->user()->id], ['followeduser', '=', $user->id]])->count();
+        }
+
+        return view('profile-posts',
+            [
+             'currentlyFollowing' => $currentlyFollowing,
+             'username' => $user->username,
+             'posts' => $user->posts()->latest()->get(),
+             'postCount' => $user->posts()->count(), 'avatar' => $user->avatar
+            ]
+        );
     }
 
     /* Afficher le formulaire de téléchargement d'une photo de profil */
