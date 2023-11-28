@@ -6,8 +6,9 @@ use App\Models\Follow;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\View;
 use Illuminate\Validation\Rule;
-use \Intervention\Image\Facades\Image;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -53,29 +54,50 @@ class UserController extends Controller
     public function showCorrectHomepage() {
         // si user authentifié
         if (auth()->check()) {
-            return view('homepage-feed');
+            return view('homepage-feed', ['posts' => auth()->user()->feedPosts()->latest()->get()]);
         } else {
             // si pas authentifié
             return view('homepage');
         }
     }
 
-    /* Afficher la page du profil utilisateur */
-    public function profile(User $user) {
+    /*
+     * Fonction commune aux 3 controllers profile, profileFollowers
+     * et profileFollowing
+     * */
+    private function getSharedData($user) {
         $currentlyFollowing = 0;
 
         if (auth()->check()) {
             $currentlyFollowing = Follow::where([['user_id', '=', auth()->user()->id], ['followeduser', '=', $user->id]])->count();
         }
 
-        return view('profile-posts',
-            [
-             'currentlyFollowing' => $currentlyFollowing,
-             'username' => $user->username,
-             'posts' => $user->posts()->latest()->get(),
-             'postCount' => $user->posts()->count(), 'avatar' => $user->avatar
-            ]
-        );
+        View::share("sharedData", [
+            'currentlyFollowing' => $currentlyFollowing,
+            'username' => $user->username,
+            'postCount' => $user->posts()->count(),
+            'followerCount' => $user->followers()->count(),
+            'followingCount' => $user->followingTheseUsers()->count(),
+            'avatar' => $user->avatar
+        ]);
+    }
+
+    /* Afficher la page du profil utilisateur et la liste de ses articles */
+    public function profile(User $user) {
+        $this->getSharedData($user);
+        return view('profile-posts', ['posts' => $user->posts()->latest()->get()]);
+    }
+
+    /* Afficher la page du profil utilisateur et la liste de ses abonnés */
+    public function profileFollowers(User $user) {
+        $this->getSharedData($user);
+        return view('profile-followers', ['followers' => $user->followers()->latest()->get()]);
+    }
+
+    /* Afficher la page du profil utilisateur et la liste de ses abonnements */
+    public function profileFollowing(User $user) {
+        $this->getSharedData($user);
+        return view('profile-following', ['following' => $user->followingTheseUsers()->latest()->get()]);
     }
 
     /* Afficher le formulaire de téléchargement d'une photo de profil */

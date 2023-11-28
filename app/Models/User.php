@@ -62,4 +62,19 @@ class User extends Authenticatable
     public function posts() {
         return $this->hasMany(Post::class, 'user_id');
     }
+
+    // Relation un user peut avoir plusieurs abonnés
+    public function followers() {
+        return $this->hasMany(Follow::class, 'followeduser');
+    }
+
+    // Relation un user peut avoir plusieurs abonnements donc suivre plusieurs utilisateurs
+    public function followingTheseUsers() {
+        return $this->hasMany(Follow::class, 'user_id');
+    }
+
+    // Relation entre un user et les posts publiés par les utilisateurs qu'il suit
+    public function feedPosts() {
+        return $this->hasManyThrough(Post::class, Follow::class, 'user_id', 'user_id', 'id', 'followeduser');
+    }
 }

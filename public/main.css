@@ -5,6 +5,10 @@ html {
 }
 body {
     margin-bottom: 80px; /* Margin bottom by footer height */
+    background-image: url("bg-pink.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 .footer {
     position: absolute;
@@ -50,6 +54,7 @@ footer a:hover,
     color: #007bff;
     text-decoration: none;
 }
+
 
 blockquote {
    border-left: 5px solid rgb(243, 173, 187);

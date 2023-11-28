@@ -19,9 +19,11 @@
         </div>
 
         <p class="text-muted small mb-4">
-            <a href="#"><img class="avatar-tiny" src="{{ $post->user->avatar }}" /></a>
+            <a href="/profile/{{$post->user->username}}">
+                <img class="avatar-tiny" src="{{ $post->user->avatar }}" />
+            </a>
             Posté par
-            <a class="color-primary author-of-post" href="#">
+            <a class="color-primary author-of-post" href="/profile/{{ $post->user->username }}">
                 {{ $post->user->username }}
             </a> le {{ $post->created_at->format('j/n/Y') }}
         </p>

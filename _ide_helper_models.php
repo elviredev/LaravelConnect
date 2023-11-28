@@ -19,6 +19,8 @@ namespace App\Models{
  * @property int $followeduser
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User $userBeingFollowed
+ * @property-read \App\Models\User $userDoingTheFollowing
  * @method static \Illuminate\Database\Eloquent\Builder|Follow newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Follow newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Follow query()
@@ -71,6 +73,10 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $isAdmin
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Follow> $followers
+ * @property-read int|null $followers_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Follow> $followingTheseUsers
+ * @property-read int|null $following_these_users_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $posts
