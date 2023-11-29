@@ -12,7 +12,7 @@
                         <label for="username-register" class="text-muted mb-1"><small>Nom d'utilisateur</small></label>
                         <input value="{{ old('username') }}" name="username" id="username-register" class="form-control" type="text" placeholder="Choisir un pseudo" autocomplete="off" />
                         @error('username')
-                        <p class="m-0 alert alert-danger shadow-sm">
+                        <p class="m-0 alert alert-danger-pink shadow-sm">
                             {{ $message }}
                         </p>
                         @enderror
@@ -22,7 +22,7 @@
                         <label for="email-register" class="text-muted mb-1"><small>Email</small></label>
                         <input value="{{ old('email') }}" name="email" id="email-register" class="form-control" type="text" placeholder="vous@exemple.com" autocomplete="off" />
                         @error('email')
-                        <p class="m-0 alert alert-danger shadow-sm">
+                        <p class="m-0 alert alert-danger-pink shadow-sm">
                             {{ $message }}
                         </p>
                         @enderror
@@ -32,7 +32,7 @@
                         <label for="password-register" class="text-muted mb-1"><small>Mot de passe</small></label>
                         <input name="password" id="password-register" class="form-control" type="password" placeholder="Créer un mot de passe" />
                         @error('password')
-                        <p class="m-0 alert alert-danger shadow-sm">
+                        <p class="m-0 alert alert-danger-pink shadow-sm">
                             {{ $message }}
                         </p>
                         @enderror
@@ -42,7 +42,7 @@
                         <label for="password-register-confirm" class="text-muted mb-1"><small>Confirmer le mot de passe</small></label>
                         <input name="password_confirmation" id="password-register-confirm" class="form-control" type="password" placeholder="Même mot de passe" />
                         @error('password_confirmation')
-                        <p class="m-0 alert alert-danger shadow-sm">
+                        <p class="m-0 alert alert-danger-pink shadow-sm">
                             {{ $message }}
                         </p>
                         @enderror

@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout :docTitle="$docTitle">
     <div class="container py-md-5 container--narrow">
         {{-- Heading : Avatar, username, boutons de suivi --}}
         <h2>

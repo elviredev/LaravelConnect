@@ -17,7 +17,7 @@ class PostController extends Controller
     public function createNewPost(Request $request) {
         $incomingFields = $request->validate([
             'title' => 'required',
-            'body' => 'required'
+            'body' => ['required', 'min:20', 'max:750']
         ]);
         // nettoyer les tags html et récupérer l'id de l'user dans la session en cours
         $incomingFields['title'] = strip_tags($incomingFields['title']);
@@ -51,7 +51,7 @@ class PostController extends Controller
         // Validation des champs entrants
         $incomingFields = $request->validate([
             'title' => 'required',
-            'body' => 'required'
+            'body' => ['required', 'min:20', 'max:750']
         ]);
 
         // nettoyer les tags html

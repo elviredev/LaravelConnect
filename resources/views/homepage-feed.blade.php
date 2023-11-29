@@ -1,15 +1,19 @@
 <x-layout>
     <div class="container py-md-5 container--narrow">
+        <!-- Si la liste des articles n'est pas vide -->
         @unless($posts->isEmpty())
-            <h2 class="text-center mb-4">Les dernières nouvelles de ceux que vous suivez</h2>
+            <h2 class="text-center mb-4">Les dernières nouvelles de ceux que vous suivez ‍👩🏼‍💻</h2>
             <div class="list-group">
                 @foreach($posts as $post)
-                    <a href="/post/{{ $post->id }}" class="list-group-item list-group-item-action">
-                        <img class="avatar-tiny" src="{{ $post->user->avatar }}" />
-                        <strong>{{ $post->title }}</strong> <span class="text-muted small">par {{ $post->user->username }} le {{ $post->created_at->format('j/n/Y') }} </span>
-                    </a>
+                <x-post :post="$post" />
                 @endforeach
             </div>
+
+        <!-- Pagination -->
+        <div class="mt-4">
+            {{ $posts->links() }}
+        </div>
+        <!-- Si aucun article publié -->
         @else
             <div class="text-center">
                 <h2>Hello <strong class="color-primary">{{ auth()->user()->username }}</strong>, votre flux est vide..</h2>

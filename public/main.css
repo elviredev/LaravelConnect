@@ -27,16 +27,22 @@ body,
   -moz-osx-font-smoothing: grayscale !important;
 }
 
-.header-bar {
+.header-bar, .alert-danger-pink {
   background-color: #f6425f;
 }
 
-.btn-submit {
+.btn-submit,
+.alert-success-green {
     background-color: #5be35b;
     color: white;
 }
 .btn-submit:hover {
     background-color: #0f680f;
+}
+
+.alert-danger-pink {
+    background-color: #f6425f;
+    color: white;
 }
 
 a:hover {
@@ -47,6 +53,18 @@ a:hover {
     color: #f6425f;
 }
 
+.color-white {
+    color: #fff;
+}
+
+.bg-single-post {
+    background-color: #f6e2e6;
+    border-radius: 5px;
+    -webkit-box-shadow: 3px 4px 14px 0 rgba(246,66,95,0.36);
+    box-shadow: 3px 4px 14px 0 rgba(246,66,95,0.36);
+    padding: 0 22px;
+}
+
 footer a:hover,
 .author-of-post:hover,
 .profile-nav-link:hover,
@@ -55,6 +73,9 @@ footer a:hover,
     text-decoration: none;
 }
 
+footer.border-top {
+    border-top-color: #e6a5b4 !important;
+}
 
 blockquote {
    border-left: 5px solid rgb(243, 173, 187);
@@ -65,6 +86,19 @@ blockquote {
 
 .container--narrow {
   max-width: 732px;
+}
+
+@media(max-width: 420px) {
+    .nav-link {
+        font-size: 14px;
+        padding: 0.3rem 0.3rem;
+    }
+    .container--narrow {
+        max-width: 290px;
+    }
+    .footer {
+        line-height: 37px;
+    }
 }
 
 .form-control:focus {
@@ -105,8 +139,9 @@ blockquote {
   font-weight: 500;
 }
 
+
 .body-content {
-  font-size: 1.2rem;
+  font-size: 1rem;
   line-height: 1.75;
   color: #292929;
 }
@@ -123,7 +158,6 @@ code, pre {
     color: #000;
 }
 
-
 .body-content p,
 .body-content ul,
 .body-content ol {
@@ -133,6 +167,15 @@ code, pre {
 .fa-user-plus,
 .fa-user-times {
     margin-left: 5px;
+}
+
+/* Pagination*/
+.page-item.active .page-link {
+    background-color: #f6425f;
+    border-color: #f6425f;
+}
+.page-link {
+    color: black;
 }
 
 /* .input-dark {
