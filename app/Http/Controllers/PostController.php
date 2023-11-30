@@ -8,12 +8,12 @@ use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
-    // Affichage du formulaire de création d'un article
+    /* Affichage du formulaire de création d'un article */
     public function showCreateForm() {
         return view('create-post');
     }
 
-    // Créer un article
+    /* Créer un article */
     public function createNewPost(Request $request) {
         $incomingFields = $request->validate([
             'title' => 'required',
@@ -29,24 +29,24 @@ class PostController extends Controller
         return redirect("/post/$newPost->id")->with('success', 'Nouvel article créé 👏🏼');
     }
 
-    // Voir un article
+    /* Voir un article */
     public function showSinglePost(Post $post) {
         $post['body'] = strip_tags(Str::markdown($post->body), '<p><ul><ol><li><strong><em><h1><h2><h3><h4><br><blockquote><code><pre>');
         return view('single-post', ['post' => $post]);
     }
 
-    // Supprimer un article
+    /* Supprimer un article */
     public function delete(Post $post) {
         $post->delete();
         return redirect('/profile/' . auth()->user()->username)->with('success', 'L\'article a bien été supprimé.');
     }
 
-    // Voir le formulaire de modification d'un article
+    /* Voir le formulaire de modification d'un article */
     public function showEditForm(Post $post) {
         return view('edit-post', ['post' => $post]);
     }
 
-    // Modifier un article
+    /* Modifier un article */
     public function updatePost(Post $post, Request $request) {
         // Validation des champs entrants
         $incomingFields = $request->validate([
@@ -62,5 +62,13 @@ class PostController extends Controller
         $post->update($incomingFields);
 
         return back()->with('success', 'L\'article a bien été modifié 👍🏼 !');
+    }
+
+    /* Rechercher un article par un mot-clé */
+    public function search($term) {
+        $posts = Post::search($term)->get();
+        // Récupérer données de la table "users":id, username et avatar
+        $posts->load('user:id,username,avatar');
+        return $posts;
     }
 }

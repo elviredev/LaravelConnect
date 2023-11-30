@@ -4,18 +4,30 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 /**
  * @mixin IdeHelperPost
  */
 class Post extends Model
 {
+    use Searchable;
     use HasFactory;
 
     protected $fillable = ['title', 'body', 'user_id'];
 
     // Relation : ce post appartient à cet user
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    // Search - Laravel/Scout
+    public function toSearchableArray()
+    {
+        return [
+            'title' => $this->title,
+            'body' => $this->body
+        ];
     }
 }

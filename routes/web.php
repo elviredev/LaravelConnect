@@ -33,6 +33,7 @@ Route::get('/post/{post}', [PostController::class, "showSinglePost"]);
 Route::delete('/post/{post}', [PostController::class, "delete"])->middleware('can:delete,post');
 Route::get('/post/{post}/edit', [PostController::class, "showEditForm"])->middleware('can:update,post');
 Route::put('/post/{post}', [PostController::class, 'updatePost'])->middleware('can:update,post');
+Route::get('/search/{term}', [PostController::class, 'search']);
 
 // URL's Profil utilisateur
 Route::get('/profile/{user:username}', [UserController::class, 'profile']);
