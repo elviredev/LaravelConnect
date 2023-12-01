@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OurExampleEvent;
 use App\Models\Follow;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -36,6 +37,11 @@ class UserController extends Controller
         if (auth()->attempt(['username' => $incomingFields['loginusername'], 'password' => $incomingFields['loginpassword']])) {
             // si la tentative réussit on connecte le user
             $request->session()->regenerate();
+
+            // exemple évènement
+            event(new OurExampleEvent(['username' => auth()->user()->username, 'action' => 'login']));
+
+            // redirect & message
             return redirect('/')->with('success', 'Vous êtes maintenant connecté 🦄');
         } else {
             return redirect('/')->with('failure', 'Connexion invalide ❌. Veuillez réessayer.');
@@ -44,7 +50,11 @@ class UserController extends Controller
 
     /* Se déconnecter */
     public function logout() {
+        // exemple évènement
+        event(new OurExampleEvent(['username' => auth()->user()->username, 'action' => 'logout']));
+        // deconnexion
         auth()->logout();
+        // redirect et message
         return redirect('/')->with('success', 'Vous êtes maintenant déconnecté 🦉');
     }
 

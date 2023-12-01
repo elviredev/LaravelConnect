@@ -1,9 +1,11 @@
 <?php
 
+use App\Events\ChatMessage;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 // URL pour admin only
 Route::get('/admins-only', function () {
@@ -39,3 +41,19 @@ Route::get('/search/{term}', [PostController::class, 'search']);
 Route::get('/profile/{user:username}', [UserController::class, 'profile']);
 Route::get('/profile/{user:username}/followers', [UserController::class, 'profileFollowers']);
 Route::get('/profile/{user:username}/following', [UserController::class, 'profileFollowing']);
+
+// URL pour le chat
+Route::post('/send-chat-message', function (Request $request) {
+    $formFields = $request->validate([
+        'textValue' => 'required'
+    ]);
+    // si texte non valide : espaces vides avant et après textValue ou caractères non aurorisés
+    if (!trim(strip_tags($formFields['textValue']))) {
+        return response()->noContent();
+    }
+    // diffuser le message
+    broadcast(new ChatMessage(['username' => auth()->user()->username, 'textValue' => strip_tags($request->textValue), 'avatar' => auth()->user()->avatar]))->toOthers();
+
+    // envoyer la réponse sans contenu (sans code 200 ni msg de succès)
+    return response()->noContent();
+})->middleware('mustBeLoggedIn');
