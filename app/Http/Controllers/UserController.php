@@ -101,16 +101,40 @@ class UserController extends Controller
         return view('profile-posts', ['posts' => $user->posts()->latest()->get()]);
     }
 
+    /*
+     * Afficher la page du profil utilisateur et la liste de ses articles
+     * Mode SPA
+     */
+    public function profileRaw(User $user) {
+        return response()->json(['theHTML' => view('profile-posts-only', ['posts' => $user->posts()->latest()->get()])->render(), 'docTitle' => "Profile de " . $user->username]);
+    }
+
     /* Afficher la page du profil utilisateur et la liste de ses abonnés */
     public function profileFollowers(User $user) {
         $this->getSharedData($user);
         return view('profile-followers', ['followers' => $user->followers()->latest()->get()]);
     }
 
+    /*
+     * Afficher la page du profil utilisateur et la liste de ses abonnés
+     * Mode SPA
+     */
+    public function profileFollowersRaw(User $user) {
+        return response()->json(['theHTML' => view('profile-followers-only', ['followers' => $user->followers()->latest()->get()])->render(), 'docTitle' => "Abonnés de " . $user->username]);
+    }
+
     /* Afficher la page du profil utilisateur et la liste de ses abonnements */
     public function profileFollowing(User $user) {
         $this->getSharedData($user);
         return view('profile-following', ['following' => $user->followingTheseUsers()->latest()->get()]);
+    }
+
+    /*
+     * Afficher la page du profil utilisateur et la liste de ses abonnements
+     * Mode SPA
+     */
+    public function profileFollowingRaw(User $user) {
+        return response()->json(['theHTML' => view('profile-following-only', ['following' => $user->followingTheseUsers()->latest()->get()])->render(), 'docTitle' => "Abonnements de " . $user->username]);
     }
 
     /* Afficher le formulaire de téléchargement d'une photo de profil */
