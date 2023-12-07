@@ -48,7 +48,7 @@ Route::middleware('cache.headers:public;max_age=20;etag')->group(function() {
     Route::get('/profile/{user:username}/following/raw', [UserController::class, 'profileFollowingRaw']);
 });
 
-// URL pour le chat
+// URL pour le tchat - Pas de contrôleur
 Route::post('/send-chat-message', function (Request $request) {
     $formFields = $request->validate([
         'textValue' => 'required'

@@ -3,7 +3,7 @@
         <div class="row align-items-center">
             <div class="col-lg-7 py-3 py-md-5">
                 <h1 class="display-3"><span class="color-primary">Souvenez-vous</span> de l'écriture ?</h1>
-                <p class="lead text-muted">Vous en avez assez des tweets courts et des messages &ldquo;partagés&rdquo; impersonnels qui rappellent les transferts d’e-mails de la fin des années 90 ? Nous pensons que revenir à l’écriture est la clé pour profiter à nouveau d’Internet.</p>
+                <p class="lead text-muted">Vous en avez assez des tweets courts et des messages &ldquo;partagés&rdquo; impersonnels qui rappellent les transferts d’e-mails de la fin des années 90 ? Nous pensons que revenir à l’écriture est la clé pour profiter à nouveau d’Internet. Nos utilisateurs ont écrits {{ $postCount }} articles.</p>
             </div>
             <div class="col-lg-5 pl-lg-5 pb-3 py-lg-5">
                 <form action="/register" method="POST" id="registration-form">

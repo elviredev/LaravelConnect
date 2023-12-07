@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Events\OurExampleEvent;
 use App\Models\Follow;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Illuminate\Validation\Rule;
@@ -69,8 +71,13 @@ class UserController extends Controller
                 ['posts' => auth()->user()->feedPosts()->latest()->paginate(5)]
             );
         } else {
+            // Cache pour le nb d'articles écrits par nos utilisateurs
+            $postCount = Cache::remember('postCount', 20, function() {
+                // sleep(5);
+                return Post::count();
+            });
             // si pas authentifié
-            return view('homepage');
+            return view('homepage', ['postCount' => $postCount]);
         }
     }
 
