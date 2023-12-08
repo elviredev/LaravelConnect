@@ -33,6 +33,25 @@ class PostController extends Controller
         return redirect("/post/$newPost->id")->with('success', 'Nouvel article créé 👏🏼');
     }
 
+    /* Créer un article via notre API */
+    public function createNewPostApi(Request $request) {
+        $incomingFields = $request->validate([
+            'title' => 'required',
+            'body' => ['required', 'min:20', 'max:750']
+        ]);
+        // nettoyer les tags html et récupérer l'id de l'user dans la session en cours
+        $incomingFields['title'] = strip_tags($incomingFields['title']);
+        $incomingFields['body'] = strip_tags($incomingFields['body']);
+        $incomingFields['user_id'] = auth()->id();
+        // sauvegarde en bdd
+        $newPost = Post::create($incomingFields);
+
+        // exécuter la tâche d'envoi d'un email via notre job SendNewpostEmail
+        dispatch(new SendNewPostEmail(['sendTo' => auth()->user()->email, 'name' => auth()->user()->username, 'title' => $newPost->title]));
+
+        return $newPost->id;
+    }
+
     /* Voir un article */
     public function showSinglePost(Post $post) {
         $post['body'] = strip_tags(Str::markdown($post->body), '<p><ul><ol><li><strong><em><h1><h2><h3><h4><br><blockquote><code><pre>');
@@ -43,6 +62,12 @@ class PostController extends Controller
     public function delete(Post $post) {
         $post->delete();
         return redirect('/profile/' . auth()->user()->username)->with('success', 'L\'article a bien été supprimé.');
+    }
+
+    /* Supprimer un article depuis l'API */
+    public function deleteApi(Post $post) {
+        $post->delete();
+        return 'true';
     }
 
     /* Voir le formulaire de modification d'un article */

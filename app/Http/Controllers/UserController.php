@@ -50,6 +50,24 @@ class UserController extends Controller
         }
     }
 
+    /* Se connecter via l'API en tant qu'utilisateur */
+    public function loginApi(Request $request) {
+        // vérifier que les champs sont remplis
+        $incomingFields = $request->validate([
+            'username' => 'required',
+            'password' => 'required'
+        ]);
+
+        // vérifier que username + mdp sont corrects
+        if (auth()->attempt($incomingFields)) {
+            $user = User::where('username', $incomingFields['username'])->first();
+            // créé un jeton pour cet utilisateur
+            $token = $user->createToken('ourapptoken')->plainTextToken;
+            return $token;
+        }
+        return 'Désolé!!!';
+    }
+
     /* Se déconnecter */
     public function logout() {
         // exemple évènement
@@ -82,7 +100,7 @@ class UserController extends Controller
     }
 
     /*
-     * Fonction commune aux 3 controllers profile, profileFollowers
+     * Fonction commune aux 3 méthodes de controller profile, profileFollowers
      * et profileFollowing
      * */
     private function getSharedData($user) {
